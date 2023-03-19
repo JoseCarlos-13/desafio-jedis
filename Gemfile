@@ -4,7 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
+gem 'activestorage', '~> 6.1', '>= 6.1.6.1'
 gem 'active_model_serializers', '~> 0.10.13'
+gem 'email_validator', '~> 2.2', '>= 2.2.4'
+gem 'cpf_cnpj', '~> 0.2.1'
+gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
 gem 'pg', '~> 1.4', '>= 1.4.3'
 gem 'rails', '~> 6.1.7'
 # Use sqlite3 as the database for Active Record

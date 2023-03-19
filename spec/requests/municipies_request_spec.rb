@@ -21,7 +21,71 @@ RSpec.describe 'Municipies', type: :request do
 
       it 'must return the municipe attributes' do
         expect(json_body[0]).to include(:id, :full_name, :cpf, :cns, :email,
-                                    :status, :address)
+                                        :status, :address)
+      end
+    end
+
+    context 'when have a filter' do
+      context 'by full_name' do
+        let(:municipe1) { create(:municipe, full_name: 'full_name1') }
+        let(:municipe2) { create(:municipe, full_name: 'full_name2') }
+        let(:address1) { create(:address, municipe_id: municipe1.id) }
+        let(:address2) { create(:address, municipe_id: municipe2.id) }
+  
+        before do
+          municipe1
+          municipe2
+          address1
+          address2
+  
+          get '/municipies', params: { full_name: 'full_name1' }
+        end
+  
+        it 'must return the municipe attributes' do
+          expect(json_body[0][:full_name]).to eq('full_name1')
+        end
+      end
+
+      context 'by email' do
+        let(:municipe1) { create(:municipe, full_name: 'full_name1', email: 'MyString1@email.com') }
+        let(:municipe2) { create(:municipe, full_name: 'full_name2', email: 'MyString2@email.com') }
+        let(:address1) { create(:address, municipe_id: municipe1.id) }
+        let(:address2) { create(:address, municipe_id: municipe2.id) }
+  
+        before do
+          municipe1
+          municipe2
+          address1
+          address2
+  
+          get '/municipies', params: { email: 'MyString1@email.com' }
+        end
+  
+        it 'must return the municipe attributes' do
+          expect(json_body[0][:full_name]).to eq('full_name1')
+        end
+      end
+
+      context 'by address' do
+        let(:municipe1) { create(:municipe, full_name: 'full_name1') }
+        let(:municipe2) { create(:municipe, full_name: 'full_name2') }
+        let(:address1) { create(:address, public_place: 'public_place1',
+                                          municipe_id: municipe1.id) }
+        let(:address2) { create(:address, public_place: 'public_place2',
+                                          municipe_id: municipe2.id) }
+
+        before do
+          municipe1
+          municipe2
+          address1
+          address2
+  
+          get '/municipies', params: { address: 'public_place1' }
+        end
+  
+        it 'must return the municipe attributes' do
+          expect(json_body[0][:full_name]).to eq('full_name1')
+        end
       end
     end
   end

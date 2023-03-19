@@ -2,7 +2,9 @@ class MunicipiesController < ApplicationController
   before_action :set_municipe, only: %i[update show]
 
   def index
-    municipies = Municipe::FilterMunicipies.new(params).call
+    municipies = MunicipiesQuery.new(params).call
+
+    municipies.includes(:address)
 
     render json: municipies,
            each_serializer: Index::MunicipiesSerializer,

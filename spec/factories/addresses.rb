@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :address do
     cep { "MyString" }
-    public_place { "MyString" }
+    public_place { "public_place" }
     complement { "MyString" }
     city { "MyString" }
     uf { "MyString" }
