@@ -1,0 +1,176 @@
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (11.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (10.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateMunicipes (20230317062553)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "municipes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "full_name" varchar, "cpf" varchar, "cns" varchar, "email" varchar, "birth_date" date, "phone_number" varchar, "status" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230317062553"]]
+  [1m[36mTRANSACTION (16.3ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateAddresses (20230317062955)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "addresses" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "cep" varchar, "public_place" varchar, "complement" varchar, "city" varchar, "uf" varchar, "ibge_code" varchar, "municipe_id" integer NOT NULL, "neighborhood" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_10095b934a"
+FOREIGN KEY ("municipe_id")
+  REFERENCES "municipes" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_addresses_on_municipe_id" ON "addresses" ("municipe_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (6.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230317062955"]]
+  [1m[36mTRANSACTION (12.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2023-03-17 06:44:12.784816"], ["updated_at", "2023-03-17 06:44:12.784816"]]
+  [1m[36mTRANSACTION (13.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mTRANSACTION (4.9ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Create (2.8ms)[0m  [1m[32mINSERT INTO "municipes" ("full_name", "cpf", "cns", "email", "birth_date", "phone_number", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["full_name", "MyString"], ["cpf", "MyString"], ["cns", "MyString"], ["email", "MyString"], ["birth_date", "2023-03-17"], ["phone_number", "MyString"], ["status", 1], ["created_at", "2023-03-18 05:56:00.408010"], ["updated_at", "2023-03-18 05:56:00.408010"]]
+  [1m[36mTRANSACTION (8.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAddress Load (0.4ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."municipe_id" = ? LIMIT ?[0m  [["municipe_id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Load (0.5ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" WHERE "municipes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mAddress Create (1.0ms)[0m  [1m[32mINSERT INTO "addresses" ("cep", "public_place", "complement", "city", "uf", "ibge_code", "municipe_id", "neighborhood", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["cep", "MyString"], ["public_place", "MyString"], ["complement", "MyString"], ["city", "MyString"], ["uf", "MyString"], ["ibge_code", "MyString"], ["municipe_id", 1], ["neighborhood", "MyString"], ["created_at", "2023-03-18 05:56:18.797182"], ["updated_at", "2023-03-18 05:56:18.797182"]]
+  [1m[36mTRANSACTION (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAddress Load (0.2ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" WHERE "addresses"."municipe_id" = ? LIMIT ?[0m  [["municipe_id", 1], ["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id"[0m
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (addresses.public_place like 'MyString')[0m
+  [1m[36mAddress Load (0.6ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" ORDER BY "addresses"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAddress Load (0.3ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" ORDER BY "addresses"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Load (0.3ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" WHERE "municipes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mAddress Update (1.0ms)[0m  [1m[33mUPDATE "addresses" SET "public_place" = ?, "updated_at" = ? WHERE "addresses"."id" = ?[0m  [["public_place", "lala1"], ["updated_at", "2023-03-18 06:00:24.343327"], ["id", 1]]
+  [1m[36mTRANSACTION (18.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.7ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (addresses.public_place like 'lala1')[0m
+  [1m[36mMunicipe Load (0.6ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (addresses.public_place like 'lala')[0m
+  [1m[36mMunicipe Load (0.5ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (addresses.public_place like 'lala1')[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Create (0.6ms)[0m  [1m[32mINSERT INTO "municipes" ("full_name", "cpf", "cns", "email", "birth_date", "phone_number", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["full_name", "MyString"], ["cpf", "MyString"], ["cns", "MyString"], ["email", "MyString"], ["birth_date", "2023-03-17"], ["phone_number", "MyString"], ["status", 1], ["created_at", "2023-03-18 06:01:06.283724"], ["updated_at", "2023-03-18 06:01:06.283724"]]
+  [1m[36mTRANSACTION (10.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" WHERE "municipes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mAddress Create (0.8ms)[0m  [1m[32mINSERT INTO "addresses" ("cep", "public_place", "complement", "city", "uf", "ibge_code", "municipe_id", "neighborhood", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["cep", "MyString"], ["public_place", "MyString"], ["complement", "MyString"], ["city", "MyString"], ["uf", "MyString"], ["ibge_code", "MyString"], ["municipe_id", 1], ["neighborhood", "MyString"], ["created_at", "2023-03-18 06:02:48.075182"], ["updated_at", "2023-03-18 06:02:48.075182"]]
+  [1m[36mTRANSACTION (19.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.6ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (addresses.public_place like 'lala1')[0m
+  [1m[36mAddress Load (0.2ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" ORDER BY "addresses"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAddress Load (0.2ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" ORDER BY "addresses"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Load (0.3ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" WHERE "municipes"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mAddress Update (2.0ms)[0m  [1m[33mUPDATE "addresses" SET "public_place" = ?, "updated_at" = ? WHERE "addresses"."id" = ?[0m  [["public_place", "lala1"], ["updated_at", "2023-03-18 06:05:09.400579"], ["id", 2]]
+  [1m[36mTRANSACTION (18.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.5ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (addresses.public_place like 'lala1')[0m
+  [1m[36mMunicipe Load (0.6ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (public_place like 'lala1')[0m
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (public_place like 'lala1')[0m
+  [1m[36mMunicipe Load (0.5ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" INNER JOIN "addresses" ON "addresses"."municipe_id" = "municipes"."id" WHERE (public_place like 'lala1')[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[36mMunicipe Load (0.3ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["email", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["phone_number", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cpf", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cns", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["email", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["phone_number", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cpf", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cns", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["email", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["phone_number", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cpf", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cns", "MyString"], ["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Destroy (1.0ms)[0m  [1m[31mDELETE FROM "municipes" WHERE "municipes"."id" = ?[0m  [["id", 1]]
+  [1m[36mAddress Load (0.3ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" ORDER BY "addresses"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAddress Destroy (10.3ms)[0m  [1m[31mDELETE FROM "addresses" WHERE "addresses"."id" = ?[0m  [["id", 2]]
+  [1m[36mAddress Load (0.3ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses" ORDER BY "addresses"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mAddress Destroy (15.4ms)[0m  [1m[31mDELETE FROM "addresses" WHERE "addresses"."id" = ?[0m  [["id", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Destroy (10.7ms)[0m  [1m[31mDELETE FROM "municipes" WHERE "municipes"."id" = ?[0m  [["id", 1]]
+  [1m[36mMunicipe Load (0.3ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Destroy (10.8ms)[0m  [1m[31mDELETE FROM "municipes" WHERE "municipes"."id" = ?[0m  [["id", 2]]
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes"[0m
+  [1m[36mAddress Load (0.3ms)[0m  [1m[34mSELECT "addresses".* FROM "addresses"[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? LIMIT ?[0m  [["email", "MyString1@email.com"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? LIMIT ?[0m  [["phone_number", "MyString1"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? LIMIT ?[0m  [["cpf", "MyString1"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? LIMIT ?[0m  [["cns", "MyString1"], ["LIMIT", 1]]
+  [1m[36mMunicipe Create (0.5ms)[0m  [1m[32mINSERT INTO "municipes" ("full_name", "cpf", "cns", "email", "birth_date", "phone_number", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["full_name", "full_name1"], ["cpf", "MyString1"], ["cns", "MyString1"], ["email", "MyString1@email.com"], ["birth_date", "2023-03-17"], ["phone_number", "MyString1"], ["status", 0], ["created_at", "2023-03-19 15:00:42.054012"], ["updated_at", "2023-03-19 15:00:42.054012"]]
+  [1m[36mTRANSACTION (12.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? LIMIT ?[0m  [["email", "MyString2@email.com"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? LIMIT ?[0m  [["phone_number", "MyString2"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? LIMIT ?[0m  [["cpf", "MyString2"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? LIMIT ?[0m  [["cns", "MyString2"], ["LIMIT", 1]]
+  [1m[36mMunicipe Create (0.5ms)[0m  [1m[32mINSERT INTO "municipes" ("full_name", "cpf", "cns", "email", "birth_date", "phone_number", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["full_name", "full_name2"], ["cpf", "MyString2"], ["cns", "MyString2"], ["email", "MyString2@email.com"], ["birth_date", "2023-03-17"], ["phone_number", "MyString2"], ["status", 0], ["created_at", "2023-03-19 15:00:45.200123"], ["updated_at", "2023-03-19 15:00:45.200123"]]
+  [1m[36mTRANSACTION (11.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Load (0.3ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" WHERE "municipes"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mAddress Create (0.6ms)[0m  [1m[32mINSERT INTO "addresses" ("cep", "public_place", "complement", "city", "uf", "ibge_code", "municipe_id", "neighborhood", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["cep", "MyString"], ["public_place", "public_place"], ["complement", "MyString"], ["city", "MyString"], ["uf", "MyString"], ["ibge_code", "MyString"], ["municipe_id", 3], ["neighborhood", "MyString"], ["created_at", "2023-03-19 15:01:24.036383"], ["updated_at", "2023-03-19 15:01:24.036383"]]
+  [1m[36mTRANSACTION (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? LIMIT ?[0m  [["email", "MyString3@email.com"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? LIMIT ?[0m  [["phone_number", "MyString3"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? LIMIT ?[0m  [["cpf", "MyString3"], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? LIMIT ?[0m  [["cns", "MyString3"], ["LIMIT", 1]]
+  [1m[36mMunicipe Create (0.5ms)[0m  [1m[32mINSERT INTO "municipes" ("full_name", "cpf", "cns", "email", "birth_date", "phone_number", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["full_name", "full_name3"], ["cpf", "MyString3"], ["cns", "MyString3"], ["email", "MyString3@email.com"], ["birth_date", "2023-03-17"], ["phone_number", "MyString3"], ["status", 0], ["created_at", "2023-03-19 15:01:54.218126"], ["updated_at", "2023-03-19 15:01:54.218126"]]
+  [1m[36mTRANSACTION (14.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.4ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ? OFFSET ?[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Load (0.1ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" WHERE "municipes"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mAddress Create (0.7ms)[0m  [1m[32mINSERT INTO "addresses" ("cep", "public_place", "complement", "city", "uf", "ibge_code", "municipe_id", "neighborhood", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["cep", "MyString"], ["public_place", "public_place"], ["complement", "MyString"], ["city", "MyString"], ["uf", "MyString"], ["ibge_code", "MyString"], ["municipe_id", 4], ["neighborhood", "MyString"], ["created_at", "2023-03-19 15:01:59.898988"], ["updated_at", "2023-03-19 15:01:59.898988"]]
+  [1m[36mTRANSACTION (12.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["email", "MyString3@email.com"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["phone_number", "MyString3"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cpf", "MyString3"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cns", "MyString3"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes"[0m
+  [1m[36mMunicipe Load (0.2ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes" ORDER BY "municipes"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mMunicipe Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."email" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["email", "MyString3@email.com"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."phone_number" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["phone_number", "MyString3"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cpf" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cpf", "MyString3"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "municipes" WHERE "municipes"."cns" = ? AND "municipes"."id" != ? LIMIT ?[0m  [["cns", "MyString3"], ["id", 5], ["LIMIT", 1]]
+  [1m[36mMunicipe Update (0.5ms)[0m  [1m[33mUPDATE "municipes" SET "status" = ?, "updated_at" = ? WHERE "municipes"."id" = ?[0m  [["status", 1], ["updated_at", "2023-03-19 15:03:26.461635"], ["id", 5]]
+  [1m[36mTRANSACTION (14.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mMunicipe Load (0.3ms)[0m  [1m[34mSELECT "municipes".* FROM "municipes"[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateActiveStorageTables (20230319151057)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "active_storage_blobs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "key" varchar NOT NULL, "filename" varchar NOT NULL, "content_type" varchar, "metadata" text, "service_name" varchar NOT NULL, "byte_size" bigint NOT NULL, "checksum" varchar NOT NULL, "created_at" datetime NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_active_storage_blobs_on_key" ON "active_storage_blobs" ("key")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "active_storage_attachments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "record_type" varchar NOT NULL, "record_id" bigint NOT NULL, "blob_id" bigint NOT NULL, "created_at" datetime NOT NULL, CONSTRAINT "fk_rails_c3b3935057"
+FOREIGN KEY ("blob_id")
+  REFERENCES "active_storage_blobs" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_active_storage_attachments_on_blob_id" ON "active_storage_attachments" ("blob_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_active_storage_attachments_uniqueness" ON "active_storage_attachments" ("record_type", "record_id", "name", "blob_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "active_storage_variant_records" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "blob_id" bigint NOT NULL, "variation_digest" varchar NOT NULL, CONSTRAINT "fk_rails_993965df05"
+FOREIGN KEY ("blob_id")
+  REFERENCES "active_storage_blobs" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_active_storage_variant_records_uniqueness" ON "active_storage_variant_records" ("blob_id", "variation_digest")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230319151057"]]
+  [1m[36mTRANSACTION (13.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
