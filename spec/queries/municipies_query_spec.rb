@@ -25,8 +25,10 @@ RSpec.describe 'MunicipiesQuery', type: :query do
 
     context 'by email' do
       let(:params) { { email: 'MyString1@email.com' } }
-      let(:municipe1) { create(:municipe, full_name: 'full_name1', email: 'MyString1@email.com') }
-      let(:municipe2) { create(:municipe, full_name: 'full_name2', email: 'MyString2@email.com') }
+      let(:municipe1) { create(:municipe, full_name: 'full_name1',
+                                          email: 'MyString1@email.com') }
+      let(:municipe2) { create(:municipe, full_name: 'full_name2',
+                                          email: 'MyString2@email.com') }
       let(:address1) { create(:address, municipe_id: municipe1.id) }
       let(:address2) { create(:address, municipe_id: municipe2.id) }
 

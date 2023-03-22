@@ -23,6 +23,13 @@ RSpec.describe 'Municipies', type: :request do
         expect(json_body[0]).to include(:id, :full_name, :cpf, :cns, :email,
                                         :status, :address, :photo)
       end
+
+      it 'must return the address attributes' do
+        expect(json_body[0][:address]).to include(:id, :cep, :public_place,
+                                                  :complement, :city, :uf,
+                                                  :ibge_code, :municipe_id,
+                                                  :neighborhood)
+      end
     end
 
     context 'when have a filter' do
@@ -47,8 +54,10 @@ RSpec.describe 'Municipies', type: :request do
       end
 
       context 'by email' do
-        let(:municipe1) { create(:municipe, full_name: 'full_name1', email: 'MyString1@email.com') }
-        let(:municipe2) { create(:municipe, full_name: 'full_name2', email: 'MyString2@email.com') }
+        let(:municipe1) { create(:municipe, full_name: 'full_name1',
+                                            email: 'MyString1@email.com') }
+        let(:municipe2) { create(:municipe, full_name: 'full_name2',
+                                            email: 'MyString2@email.com') }
         let(:address1) { create(:address, municipe_id: municipe1.id) }
         let(:address2) { create(:address, municipe_id: municipe2.id) }
   
@@ -96,9 +105,6 @@ RSpec.describe 'Municipies', type: :request do
       let(:municipe_attributes) { attributes_for(:municipe, address_attributes: address_attributes) }
   
       before do
-        municipe_attributes
-        address_attributes
-  
         post '/municipies', params: { municipe: municipe_attributes }
       end
   
@@ -108,19 +114,24 @@ RSpec.describe 'Municipies', type: :request do
   
       it 'must return the municipe attributes' do
         expect(json_body).to include(:id, :full_name, :cpf, :cns, :email,
-                                     :status, :address, :photo)
+                                     :status, :phone_number, :birth_date,
+                                     :address, :photo)
+      end
+
+      it 'must return the address attributes' do
+        expect(json_body[:address]).to include(:id, :cep, :public_place,
+                                               :complement, :city, :uf,
+                                               :ibge_code, :municipe_id,
+                                               :neighborhood)
       end
     end
 
     context 'when the municipe is not created' do
       let(:invalid_address_attributes) { attributes_for(:address, cep: nil, city: nil) }
       let(:invalid_municipe_attributes) { attributes_for(:municipe, full_name: nil,
-                                                            address_attributes: invalid_address_attributes) }
+                                                                    address_attributes: invalid_address_attributes) }
   
       before do
-        invalid_municipe_attributes
-        invalid_address_attributes
-  
         post '/municipies', params: { municipe: invalid_municipe_attributes }
       end
   
@@ -140,7 +151,6 @@ RSpec.describe 'Municipies', type: :request do
       let(:address) { create(:address, municipe_id: municipe.id) }
 
       before do
-        municipe
         address
 
         get "/municipies/#{municipe.id}"
@@ -152,7 +162,15 @@ RSpec.describe 'Municipies', type: :request do
 
       it 'must return municipe attributes' do
         expect(json_body).to include(:id, :full_name, :cpf, :cns, :email,
-                                      :status, :address, :photo)
+                                     :status, :phone_number, :birth_date,
+                                     :address, :photo)
+      end
+
+      it 'must return the address attributes' do
+        expect(json_body[:address]).to include(:id, :cep, :public_place,
+                                               :complement, :city, :uf,
+                                               :ibge_code, :municipe_id,
+                                               :neighborhood)
       end
     end
   end
@@ -164,10 +182,6 @@ RSpec.describe 'Municipies', type: :request do
       let(:municipe_attributes) { attributes_for(:municipe, address_attributes: address_attributes) }
   
       before do
-        municipe
-        municipe_attributes
-        address_attributes
-  
         put "/municipies/#{municipe.id}", params: { municipe: municipe_attributes }
       end
 
@@ -180,13 +194,9 @@ RSpec.describe 'Municipies', type: :request do
       let(:municipe) { create(:municipe) }
       let(:invalid_address_attributes) { attributes_for(:address, cep: '', city: '') }
       let(:invalid_municipe_attributes) { attributes_for(:municipe, full_name: '',
-                                                          address_attributes: invalid_address_attributes) }
+                                                                    address_attributes: invalid_address_attributes) }
   
       before do
-        municipe
-        invalid_municipe_attributes
-        invalid_address_attributes
-  
         put "/municipies/#{municipe.id}", params: { municipe: invalid_municipe_attributes }
       end
 
